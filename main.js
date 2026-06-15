@@ -65,12 +65,30 @@ counters.forEach(c => cObs.observe(c));
 // GOOGLE SHEETS INTEGRATION
 // Letak URL Sheet kau kat bawah ni
 // ══════════════════════════════════════════
-const SHEET_URL = 'PASTE_YOUR_SHEET_URL_HERE';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTxPE3FSPf3jEFji-Gs_Jn1hPJWCwXHVJq9FjpsCTk9WDQs_-R_d3fW1nF7fZZWohOx0MA9glkWCy6-/pub?output=csv&gid=479211409';
 
 // Data kamera — update nama, harga, emoji ikut unit kau
 const cameras = {
-  'canon-r50':   { emoji: '📷', name: 'Canon EOS R50',    price: 'RM ?? / hari', booked: [] },
-  'sony-a6400':  { emoji: '📸', name: 'Sony Alpha A6400', price: 'RM ?? / hari', booked: [] }
+  'canon-r50':  {
+    emoji: '📷', name: 'Canon R50', price: 'RM 50 / hari', booked: [],
+    includes: [
+      'Body Canon EOS R50',
+      'Battery LP-E17 (1x) + Charger',
+      'Memory Card 64GB',
+      'Camera Strap',
+      'Body Cap'
+    ]
+  },
+  'sony-a6400': {
+    emoji: '📸', name: 'Sony Alpha A6400', price: 'RM ?? / hari', booked: [],
+    includes: [
+      'Body Sony Alpha A6400',
+      'Battery NP-FW50 (1x) + Charger',
+      'Memory Card 64GB',
+      'Camera Strap',
+      'Body Cap'
+    ]
+  }
 };
 
 const months = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'];
@@ -130,7 +148,17 @@ function openModal(id) {
   document.getElementById('modalName').textContent  = cam.name;
   document.getElementById('modalPrice').textContent = cam.price;
   document.getElementById('modalWaBtn').href =
-    `https://wa.me/601XXXXXXXX?text=Hi%20LensKu!%20Nak%20tanya%20availability%20untuk%20${encodeURIComponent(cam.name)}`;
+    `https://wa.me/60113676335?text=Hi%20Ata%20Hub!%20Nak%20tanya%20availability%20untuk%20${encodeURIComponent(cam.name)}`;
+
+  // Render "Dalam Kotak" list
+  const includesList = document.getElementById('modalIncludes');
+  includesList.innerHTML = cam.includes.map(item => `
+    <div class="modal-include-item">
+      <span class="modal-include-dot"></span>
+      ${item}
+    </div>
+  `).join('');
+
   modalDate = new Date();
   renderCal();
   document.getElementById('modalOverlay').classList.add('open');
@@ -256,4 +284,94 @@ function renderCal() {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // ── LOAD SHEET ──
+// Format Sheet kau:
+// Col A = Customer Name
+// Col B = Phone Number
+// Col C = Payment Status
+// Col D = Camera Rented  ← kita baca ni
+// Col E = Add-On
+// Col F = Booking Date
+// Col G = Start Date     ← kita baca ni
+// Col H = Return Date    ← kita baca ni
+// Col I = Duration (days)
+// ... etc
+
+async function loadSheet() {
+  if (SHEET_URL === 'PASTE_YOUR_SHEET_URL_HERE') {
+    // Demo mode — data contoh
+    cameras['canon-r50'].booked  = [3, 7, 8, 14, 15, 20];
+    cameras['dji-osmo'].booked   = [5, 6, 12];
+    sheetLoaded = true;
+    return;
+  }
+  try {
+    const res = await fetch(SHEET_URL);
+    const csv = await res.text();
+
+    // Reset semua booked dates
+    Object.keys(cameras).forEach(k => cameras[k].booked = []);
+
+    const rows = csv.trim().split('\n').slice(1); // skip header row
+
+    rows.forEach(row => {
+      // Parse CSV properly (handle quoted commas)
+      const cols = parseCSVRow(row);
+
+      const cameraRented = cols[3]?.trim(); // Column D — Camera Rented
+      const startDateStr = cols[6]?.trim(); // Column G — Start Date
+      const returnDateStr= cols[7]?.trim(); // Column H — Return Date
+
+      if (!cameraRented || !startDateStr || !returnDateStr) return;
+
+      // Match camera name to key
+      const key = matchCamera(cameraRented);
+      if (!key) return;
+
+      // Fill all dates from start to return as booked
+      const start  = new Date(startDateStr);
+      const returnD= new Date(returnDateStr);
+      if (isNaN(start.getTime()) || isNaN(returnD.getTime())) return;
+
+      // Loop setiap hari dari start sampai return, mark as booked
+      const cur = new Date(start);
+      while (cur <= returnD) {
+        cameras[key].booked.push({
+          y: cur.getFullYear(),
+          m: cur.getMonth(),
+          d: cur.getDate()
+        });
+        cur.setDate(cur.getDate() + 1);
+      }
+    });
+
+    sheetLoaded = true;
+  } catch (err) {
+    console.warn('Sheet fetch gagal, guna demo data.', err);
+    cameras['canon-r50'].booked = [3, 7, 8, 14, 15, 20];
+    sheetLoaded = true;
+  }
+}
+
+// Parse satu row CSV dengan betul (handle quoted fields)
+function parseCSVRow(row) {
+  const cols = [];
+  let cur = '', inQuote = false;
+  for (let i = 0; i < row.length; i++) {
+    const ch = row[i];
+    if (ch === '"') { inQuote = !inQuote; }
+    else if (ch === ',' && !inQuote) { cols.push(cur); cur = ''; }
+    else { cur += ch; }
+  }
+  cols.push(cur);
+  return cols;
+}
+
+// Match nama kamera dari Sheet ke camera key
+function matchCamera(name) {
+  const n = name.toLowerCase().trim();
+  if (n.includes('canon r50') || n.includes('canon r 50')) return 'canon-r50';
+  if (n.includes('a6400') || n.includes('sony a6400'))     return 'sony-a6400';
+  return null;
+}
+
 loadSheet();
