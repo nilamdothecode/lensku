@@ -142,13 +142,30 @@ nav.scrolled { box-shadow: 0 4px 20px rgba(71,60,51,0.08); }
 .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(2rem,4vw,3rem); line-height: 1.1; color: var(--text); margin-bottom: 0.75rem; }
 .section-sub { font-size: 1rem; color: var(--text-muted); line-height: 1.7; max-width: 520px; }
 
+/* ── CAMERA CARD SLIDER ── */
+.cam-img-wrap { background: var(--cream-dark); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+.cam-slider { width: 100%; height: 100%; position: relative; }
+.cam-slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 5.5rem; opacity: 0; transition: opacity 0.35s ease; }
+.cam-slide img { width: 100%; height: 100%; object-fit: cover; }
+.cam-slide.active { opacity: 1; }
+.cam-slider-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; z-index: 2; }
+.cam-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(71,60,51,0.25); transition: background 0.2s, transform 0.2s; }
+.cam-dot.active { background: var(--brown); transform: scale(1.3); }
+.cam-slider-btns { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 8px; z-index: 2; opacity: 0; transition: opacity 0.2s; }
+.cam-img-wrap:hover .cam-slider-btns { opacity: 1; }
+.cam-prev, .cam-next { background: rgba(255,255,255,0.85); border: none; width: 28px; height: 28px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text); transition: background 0.2s; line-height: 1; }
+.cam-prev:hover, .cam-next:hover { background: var(--white); }
+
+/* ── ADDON VARIANTS ── */
+.addon-img-wrap { font-size: 2.5rem; margin-bottom: 1rem; }
+.addon-variants { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 0.75rem; }
+.addon-variant { font-size: 0.68rem; color: var(--green-dark); background: rgba(171,194,112,0.12); border: 1px solid rgba(171,194,112,0.3); padding: 3px 10px; border-radius: 100px; font-weight: 500; }
+
 /* ── CAMERAS ── */
 #cameras { background: var(--cream); }
 .cam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: 1.5rem; margin-top: 3rem; }
 .cam-card { background: var(--white); border-radius: var(--radius); overflow: hidden; border: 1.5px solid transparent; transition: border-color 0.25s, box-shadow 0.25s; cursor: pointer; }
 .cam-card:hover { border-color: var(--green); box-shadow: 0 12px 36px rgba(71,60,51,0.1); }
-.cam-img-wrap { background: var(--cream-dark); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; font-size: 5.5rem; position: relative; overflow: hidden; }
-.cam-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
 .cam-status { position: absolute; top: 12px; right: 12px; font-size: 0.65rem; font-weight: 700; padding: 4px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.06em; }
 .status-available { background: rgba(171,194,112,0.25); color: var(--green-dark); }
 .status-booked { background: rgba(253,167,105,0.25); color: #c17a3e; }

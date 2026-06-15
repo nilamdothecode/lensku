@@ -50,8 +50,8 @@
       "closes": "22:00"
     },
     "sameAs": [
-      "https://www.tiktok.com/@lensKuMY",
-      "https://www.carousell.com.my/u/lensKuMY"
+      "https://www.tiktok.com/@atahubMY",
+      "https://www.carousell.com.my/u/atahubMY"
     ]
   }
   </script>
@@ -91,7 +91,7 @@
     <div class="hero-left">
       <div class="hero-tag"><span class="hero-tag-dot"></span> Klang · Shah Alam · Subang</div>
       <h1 class="hero-h1">Sewa kamera <em>pro,</em><br>harga masuk akal.</h1>
-      <p class="hero-p">Tengok availability terus WhatsApp je untuk book.</p>
+      <p class="hero-p">Tengok availability terus — WhatsApp je untuk book.</p>
       <div class="hero-btns">
         <a href="#cameras" class="btn-main">Tengok Kamera →</a>
         <a href="#howtosewa" class="btn-outline">Cara Sewa</a>
@@ -104,9 +104,12 @@
     </div>
     <div class="hero-right">
       <div class="hero-cam-float">
+        <div class="hero-badge"><span class="hero-badge-dot"></span> Available sekarang</div>
         <div class="hero-cam-emoji-wrap">
-            <img src="images/camera.png" alt="Canon R50">
+          <img src="images/camera.png" alt="Canon R50">
         </div>
+        <div class="hero-badge2">⭐ 5.0 · 100+ sewa</div>
+        <div class="hero-cam-shadow"></div>
       </div>
     </div>
   </div>
@@ -123,10 +126,24 @@
       <p class="section-sub">Klik mana-mana kamera untuk tengok tarikh yang available. Setiap unit ada availability tersendiri.</p>
     </div>
     <div class="cam-grid">
+
+      <!-- Canon R50 -->
       <div class="cam-card pop pop-d1" onclick="openModal('canon-r50')">
         <div class="cam-img-wrap">
-          📷
-          <!-- Bila ada gambar: <img src="images/canon-r50.jpg" alt="Canon R50"> -->
+          <div class="cam-slider" id="slider-canon">
+            <div class="cam-slide active">📷</div>
+            <div class="cam-slide">🔍</div>
+            <div class="cam-slide">📦</div>
+          </div>
+          <div class="cam-slider-dots">
+            <span class="cam-dot active"></span>
+            <span class="cam-dot"></span>
+            <span class="cam-dot"></span>
+          </div>
+          <div class="cam-slider-btns">
+            <button class="cam-prev" onclick="slideCard(event,'canon',-1)">‹</button>
+            <button class="cam-next" onclick="slideCard(event,'canon',1)">›</button>
+          </div>
           <span class="cam-status status-available">Available</span>
         </div>
         <div class="cam-body">
@@ -144,6 +161,8 @@
           </div>
         </div>
       </div>
+
+      <!-- DJI Not Available -->
       <div class="cam-card pop pop-d2" style="opacity:0.6;cursor:default;">
         <div class="cam-img-wrap">
           🎥
@@ -164,10 +183,23 @@
         </div>
       </div>
 
+      <!-- Sony A6400 -->
       <div class="cam-card pop pop-d3" onclick="openModal('sony-a6400')">
         <div class="cam-img-wrap">
-          📸
-          <!-- Bila ada gambar: <img src="images/sony-a6400.jpg" alt="Sony A6400"> -->
+          <div class="cam-slider" id="slider-sony">
+            <div class="cam-slide active">📸</div>
+            <div class="cam-slide">🔭</div>
+            <div class="cam-slide">📦</div>
+          </div>
+          <div class="cam-slider-dots">
+            <span class="cam-dot active"></span>
+            <span class="cam-dot"></span>
+            <span class="cam-dot"></span>
+          </div>
+          <div class="cam-slider-btns">
+            <button class="cam-prev" onclick="slideCard(event,'sony',-1)">‹</button>
+            <button class="cam-next" onclick="slideCard(event,'sony',1)">›</button>
+          </div>
           <span class="cam-status status-available">Coming Soon</span>
         </div>
         <div class="cam-body">
@@ -185,6 +217,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -216,7 +249,6 @@
       <div class="leg"><div class="leg-box" style="background:rgba(253,167,105,0.15)"></div>Booked</div>
       <div class="leg"><div class="leg-box" style="background:rgba(71,60,51,0.06)"></div>Lepas</div>
     </div>
-    <!-- DALAM KOTAK -->
     <div class="modal-includes">
       <div class="modal-includes-title">📦 Dalam Kotak</div>
       <div class="modal-includes-list" id="modalIncludes"></div>
@@ -234,15 +266,44 @@
     <div class="pop">
       <div class="section-label">Aksesori Tambahan</div>
       <h2 class="section-title">Tambah add-on,<br>shoot lagi smooth.</h2>
-      <p class="section-sub">Boleh request aksesori ni masa WhatsApp kami. Semua harga per hari.</p>
+      <p class="section-sub">Request aksesori masa WhatsApp. Semua harga per hari — bagitau yang mana kau nak.</p>
     </div>
     <div class="addon-grid">
-      <div class="addon-card pop pop-d1"><div class="addon-icon">🔋</div><div class="addon-name">Extra Battery</div><div class="addon-desc">Shoot seharian tanpa risau habis bateri.</div><div class="addon-price">RM 10 <span>/ hari</span></div></div>
-      <div class="addon-card pop pop-d2"><div class="addon-icon">📐</div><div class="addon-name">Tripod</div><div class="addon-desc">Ringan, sturdy. Sesuai portrait, landscape & video.</div><div class="addon-price">RM 15 <span>/ hari</span></div></div>
-      <div class="addon-card pop pop-d3"><div class="addon-icon">💾</div><div class="addon-name">Memory Card</div><div class="addon-desc">128GB / 256GB high speed untuk 4K video.</div><div class="addon-price">RM 10 <span>/ hari</span></div></div>
-      <div class="addon-card pop pop-d4"><div class="addon-icon">💡</div><div class="addon-name">LED Light Panel</div><div class="addon-desc">Compact LED untuk content creation & interview.</div><div class="addon-price">RM 20 <span>/ hari</span></div></div>
-      <div class="addon-card pop pop-d5"><div class="addon-icon">🎙️</div><div class="addon-name">Rode Wireless Mic</div><div class="addon-desc">Wireless lavalier untuk audio tip-top.</div><div class="addon-price">RM 25 <span>/ hari</span></div></div>
-      <div class="addon-card pop pop-d6"><div class="addon-icon">🎒</div><div class="addon-name">Camera Bag</div><div class="addon-desc">Padded bag — muat body + 2 lens + aksesori.</div><div class="addon-price">RM 10 <span>/ hari</span></div></div>
+
+      <div class="addon-card pop pop-d1">
+        <div class="addon-img-wrap">🔋</div>
+        <div class="addon-name">Battery</div>
+        <div class="addon-desc">Canon LP-E17 · Sony NP-FW50<br>Shoot seharian tanpa risau habis bateri.</div>
+        <div class="addon-variants">
+          <span class="addon-variant">Canon R50</span>
+          <span class="addon-variant">Sony A6400</span>
+        </div>
+        <div class="addon-price">RM 10 <span>/ hari</span></div>
+      </div>
+
+      <div class="addon-card pop pop-d2">
+        <div class="addon-img-wrap">📐</div>
+        <div class="addon-name">Tripod / Monopod</div>
+        <div class="addon-desc">Ulanzi MT-46 (kamera) · MT-85 (phone)<br>Ringan, sturdy, sesuai untuk semua jenis shoot.</div>
+        <div class="addon-variants">
+          <span class="addon-variant">Ulanzi MT-46</span>
+          <span class="addon-variant">Ulanzi MT-85</span>
+        </div>
+        <div class="addon-price">RM 15 <span>/ hari</span></div>
+      </div>
+
+      <div class="addon-card pop pop-d3">
+        <div class="addon-img-wrap">💾</div>
+        <div class="addon-name">Memory Card</div>
+        <div class="addon-desc">High speed — sesuai untuk video 4K tanpa lag.</div>
+        <div class="addon-variants">
+          <span class="addon-variant">64GB — RM10</span>
+          <span class="addon-variant">128GB — RM15</span>
+          <span class="addon-variant">256GB — RM20</span>
+        </div>
+        <div class="addon-price">dari RM 10 <span>/ hari</span></div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -374,7 +435,6 @@
             <div class="contact-info-val">Pickup area Klang / Shah Alam</div>
           </div>
         </div>
-        
       </div>
     </div>
   </div>

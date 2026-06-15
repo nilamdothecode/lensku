@@ -2,6 +2,22 @@
    LENSKУ — MAIN.JS
 ══════════════════════════ */
 
+// ── CAMERA CARD SLIDER ──
+const cardSliders = {};
+function slideCard(e, id, dir) {
+  e.stopPropagation(); // jangan trigger openModal
+  const wrap = document.getElementById('slider-' + id);
+  if (!wrap) return;
+  const slides = wrap.querySelectorAll('.cam-slide');
+  const dots = wrap.closest('.cam-img-wrap').querySelectorAll('.cam-dot');
+  if (!cardSliders[id]) cardSliders[id] = 0;
+  slides[cardSliders[id]].classList.remove('active');
+  dots[cardSliders[id]].classList.remove('active');
+  cardSliders[id] = (cardSliders[id] + dir + slides.length) % slides.length;
+  slides[cardSliders[id]].classList.add('active');
+  dots[cardSliders[id]].classList.add('active');
+}
+
 // ── AUTO YEAR FOOTER ──
 document.getElementById('footerCopy').textContent =
   '© ' + new Date().getFullYear() + ' LensKu · Klang / Shah Alam / Subang';
